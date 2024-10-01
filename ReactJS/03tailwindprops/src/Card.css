@@ -1,0 +1,18 @@
+.outer{
+    border: 1px solid black;
+    padding: 5px;
+    margin: 5px;
+    width: 200px;
+    float: left;
+    background-color: rgb(46, 46, 46);
+    color: white;
+}
+
+.name{
+    width: 100%;
+    text-align: center;
+}
+
+.para{
+    width: 100%;
+}

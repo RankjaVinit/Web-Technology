@@ -1,0 +1,27 @@
+.background{
+    width: 100vw;
+    height: 100vh;
+    padding: 40px;
+}
+
+.bar{
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    position: relative;
+    top: 100%;
+    transform: translateY(-100%);
+    box-shadow: 3px 3px 3px rgba(40, 40, 40, 0.653) inset, 
+                -3px -3px 5px rgba(255, 255, 255, 0.719) inset;
+}
+
+.button{
+    padding: 6px;
+    margin: 10px;
+    border-radius: 4px;
+    /* outline: 0px; */
+    color: white;
+    border: 0px;
+    box-shadow: 2px 2px 4px rgba(40, 40, 40, 0.331);
+    text-shadow: 1px 1px 3px rgb(40, 40, 40);
+}
