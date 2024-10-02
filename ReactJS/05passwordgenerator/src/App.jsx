@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import './App.css'
 
 function App() {
@@ -11,6 +11,13 @@ function App() {
   
   const [password, setPassword] = useState("");
 
+  const passwordRef = useRef(null);
+
+  const copyPasswordToClipboard = useCallback(() => {
+    passwordRef.current?.select();
+    window.navigator.clipboard.writeText(password);
+  }, [password]);
+
   const passwordGenerator = useCallback( () => {
     let password = '';
 
@@ -20,12 +27,18 @@ function App() {
     if(specialChar) string += '!@#$%^&*()-_=+[]{};:"\'\\|/?,<>~`'
 
     for(let i = 0 ; i < length ; i++){
-      password += string.charAt( Math.floor(Math.random() * (string.length() + 1 ) ) );
+      password += string.charAt( Math.floor(Math.random() * (string.length + 1 ) ) );
     }
 
     setPassword(password);
 
   }, [length, number, specialChar, setPassword]);
+
+
+  useEffect( () => {
+    passwordGenerator();
+  }, [length, number, specialChar, passwordGenerator] );
+
 
 
   return (
@@ -36,18 +49,26 @@ function App() {
 
       <div className="m-16 flex flex-col justify-center items-center">
 
-        <div className="p-3 rounded-lg">
+        <div 
+          className="rounded-lg overflow-hidden"
+        >
 
           <input 
-            className="w-96 rounded-lg bg-neutral-700 p-3 border-0 outline-0 drop-shadow-xl"
+            className="w-96 bg-neutral-700 p-3 border-0 outline-0 drop-shadow-xl"
             type="text"
             value={password}
             readOnly
+            ref={passwordRef}
           />
+
+          <button 
+            className='h-full bg-green-500 p-3'
+            onClick={copyPasswordToClipboard}
+          > Copy </button>
           
         </div>
 
-        <div className="pt-5 rounded-lg space-x-7 flex">
+        <div className="pt-5 space-x-7 flex">
 
           <div className='flex space-x-1'>
             <div className="text-slate-50">
@@ -56,9 +77,8 @@ function App() {
             <input 
               type="range" 
               min="5" 
-              max="50" 
+              max="40" 
               onChange={(e) => {
-                console.log(e.target.value);
                 setLength(e.target.value);
               }}
               value={length}
@@ -68,10 +88,9 @@ function App() {
 
           <div className='flex space-x-2'>
             <input 
-              type="radio" 
-              onChange={(e) => {
-                console.log(e.target.value);
-                setNumber(e.target.value);
+              type="checkbox" 
+              onChange={() => {
+                setNumber(pre => !pre);
               }}
               value={number}
             />
@@ -82,10 +101,9 @@ function App() {
 
           <div className='flex space-x-2'>
             <input 
-              type="radio" 
-              onChange={(e) => {
-                console.log(e.target.value);
-                setSpecialChar(e.target.value);
+              type="checkbox" 
+              onChange={() => {
+                setSpecialChar(pre => !pre);
               }}
               value={specialChar}
             />
